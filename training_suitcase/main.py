@@ -1,11 +1,11 @@
 import requests
-import webbrowser
-import subprocess
 import time
+import dominate
 
 from xml.etree import ElementTree
 from math import cos, asin, sqrt, pi
 from selenium import webdriver
+from dominate.tags import *
 
 buses = []
 
@@ -43,17 +43,16 @@ def distance(lat1, lon1, lat2, lon2):
 def displayMap(bus_id, vic_lat, vic_lon, bus_lat, bus_lon):
     ACCESS_TOKEN="pk.eyJ1Ijoicm9zZWJpdGVzMTMiLCJhIjoiY2s1ejFraDRsMHEwbDNvcjd4Y2x1Z2dvbyJ9.MCAH4_8ZqYM8KEWrRJ1wcA"
 
-    # url = "https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/{},{},14.25,0,0/1280x1280?access_token={}".format(lon, lat, ACCESS_TOKEN)
     url = "https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/pin-l-v+0000cc({},{}),pin-l-b+ff0000({},{})/{},{},14.25,0,0/900x900?access_token={}".format(vic_lon, vic_lat, bus_lon, bus_lat, bus_lon, bus_lat, ACCESS_TOKEN)
 
-    # webbrowser.open(url)
+    doc = dominate.document(title='Bus {} Location'.format(bus_id))
 
-    # p = subprocess.Popen(["firefox", url])
-    # return p
+    with doc:
+        with div(cls='bus'):
+            img(src=url)
 
     driver = webdriver.Firefox()
-    # if driver.service.process != None:
-    driver.get(url)
+    driver.get("data:text/html;charset=utf-8," + str(doc))
     return driver
 
 if __name__ == "__main__":
@@ -83,7 +82,7 @@ if __name__ == "__main__":
                 print(str(buses[i]['id']), str(dis_bus))
 
         if are_buses_near == False:
-            print("\nNo buses near Victor's Place")\
+            print("\nNo buses near Victor's Place")
 
         print("\nWaiting for next update...")
 
