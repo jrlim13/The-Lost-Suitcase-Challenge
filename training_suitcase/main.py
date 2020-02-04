@@ -5,6 +5,7 @@ import dominate
 from xml.etree import ElementTree
 from math import cos, asin, sqrt, pi
 from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
 from dominate.tags import *
 
 buses = []
@@ -40,7 +41,8 @@ def distance(lat1, lon1, lat2, lon2):
     return 12742 * asin(sqrt(a))
 
 """Displays map of near buses"""
-def displayMap(bus_id, vic_lat, vic_lon, bus_lat, bus_lon):
+def displayMap(bus_id, vic_lat, vic_lon, bus_lat, bus_lon, driver):
+
     ACCESS_TOKEN="pk.eyJ1Ijoicm9zZWJpdGVzMTMiLCJhIjoiY2s1ejFraDRsMHEwbDNvcjd4Y2x1Z2dvbyJ9.MCAH4_8ZqYM8KEWrRJ1wcA"
 
     url = "https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/pin-l-v+0000cc({},{}),pin-l-b+ff0000({},{})/{},{},14.25,0,0/900x900?access_token={}".format(vic_lon, vic_lat, bus_lon, bus_lat, bus_lon, bus_lat, ACCESS_TOKEN)
@@ -48,11 +50,22 @@ def displayMap(bus_id, vic_lat, vic_lon, bus_lat, bus_lon):
     doc = dominate.document(title='Bus {} Location'.format(bus_id))
 
     with doc:
-        with div(cls='bus'):
+        with div(cls='bus', style='position: relative;'):
+            with div(style='position: absolute; left:950px;'):
+                h3('V - Victor', style='color:blue;')
+                h3('B - Bus', style='color:red;')
             img(src=url)
 
-    driver = webdriver.Firefox()
-    driver.get("data:text/html;charset=utf-8," + str(doc))
+    html_doc_url = "data:text/html;charset=utf-8," + str(doc)
+
+    if driver is None:
+        driver = webdriver.Firefox()
+        driver.get(html_doc_url)
+    else:
+        driver.execute_script("window.open('');")
+        driver.switch_to.window(driver.window_handles[len(driver.window_handles) - 1])
+        driver.get(html_doc_url)
+
     return driver
 
 if __name__ == "__main__":
@@ -77,11 +90,11 @@ if __name__ == "__main__":
             if dis_bus < 1:
                 are_buses_near = True
                 print(str(buses[i]['id']), str(dis_bus), "NEAR")
-                driver = displayMap(buses[i]['id'], vic_lat, vic_lon, float(buses[i]['lat']), float(buses[i]['lon']))
+                driver = displayMap(buses[i]['id'], vic_lat, vic_lon, float(buses[i]['lat']), float(buses[i]['lon']), driver)
             else:
                 print(str(buses[i]['id']), str(dis_bus))
 
-        if are_buses_near == False:
+        if not are_buses_near:
             print("\nNo buses near Victor's Place")
 
         print("\nWaiting for next update...")
@@ -89,7 +102,7 @@ if __name__ == "__main__":
         time.sleep(60.0 - (time.time() % 60.0))
 
         if driver is not None:
-            driver.close()
+            driver.quit()
 
         buses.clear()
         print("\n" * 100)
