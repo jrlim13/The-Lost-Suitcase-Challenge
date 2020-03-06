@@ -2,7 +2,6 @@
 Bootcamp (Novare) - Training 2
 
 ## Script Version
-### How to Run
 1. Run the script normally
 
 ## Flask Verision
