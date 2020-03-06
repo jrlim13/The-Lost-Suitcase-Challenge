@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div>
+    {% if north_buses %}
+        {% for north_bus in north_buses %}
+        <h1>{{ north_bus.id }}</h1>
+        <img src="https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/pin-l-v+0000cc({{ user.lon }},{{ user.lat }}),pin-l-b+ff0000({{ north_bus.lon }},{{ north_bus.lat }})/{{ north_bus.lon }},{{ north_bus.lat }},14.25,0,0/600x600?access_token=pk.eyJ1Ijoicm9zZWJpdGVzMTMiLCJhIjoiY2s1ejFraDRsMHEwbDNvcjd4Y2x1Z2dvbyJ9.MCAH4_8ZqYM8KEWrRJ1wcA">
+        {% endfor %}
+    {% else %}
+        <p>No Buses Going North Bound</p>
+    {% endif %}
+</div>
+{% endblock %}
