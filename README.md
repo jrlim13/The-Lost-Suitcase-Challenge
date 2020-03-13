@@ -1,5 +1,6 @@
 # Suitcase-Problem
 Bootcamp (Novare) - Training 2
+
 Jerry went to chicago then rode a bus at route 22 to see his long time friend Victor. At the stop over, he went off the bus to buy some ice cream without noticing that the bus has already left. After a while he realized that he’d left the suitcase on the bus! Jerry needs to get it back but he needs your support. Your task is to help Jerry get it back.
 
 1.) Jerry has no idea what’s the number of the bus he was riding at that time. Find all possible candidates by parsing the data from this API:
@@ -16,5 +17,5 @@ We need all buses going northbound. Victor’s location is at 41.980262 latitude
 
 ## Flask Verision
 1. Run the web API first
-2. Type `export FLASK_APP=training_suitcase_flask.py FLASK_ENV=development`
+2. Type `export FLASK_APP=training_suitcase_flask.py FLASK_ENV=development` in terminal
 3. Type `flask run` in terminal
