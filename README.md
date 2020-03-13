@@ -16,5 +16,5 @@ We need all buses going northbound. Victor’s location is at 41.980262 latitude
 
 ## Flask Verision
 1. Run the web API first
-2. Export FLASK_APP=training_suitcase_flask.py and FLASK_ENV=development
-3. Type flask run in terminal
+2. Type `export FLASK_APP=training_suitcase_flask.py FLASK_ENV=development`
+3. Type `flask run` in terminal
