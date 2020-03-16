@@ -1,4 +1,4 @@
-# Suitcase-Problem
+# The-Lost-Suitcase-Challenge
 Bootcamp (Novare) - Training 2
 
 Jerry went to chicago then rode a bus at route 22 to see his long time friend Victor. At the stop over, he went off the bus to buy some ice cream without noticing that the bus has already left. After a while he realized that he’d left the suitcase on the bus! Jerry needs to get it back but he needs your support. Your task is to help Jerry get it back.
